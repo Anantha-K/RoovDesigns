@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
+@theme {
+  /* Dark theme color palette */
+  --color-bg:                  #0f0e11;
+  --color-bg-secondary:        #1a191d;
+  --color-text-primary:        #ffffff;
+  --color-text-muted:          #999999;
+  --color-soft-white:          #ffffff;
+  --color-soft-white-muted:    #a3a3a3;
+  --color-matte-black:         #0f0e11;
+  --color-matte-black-light:   #1a191d;
+
+  /* Purple accent */
+  --color-royal-purple-dark:   #15062a;
+  --color-royal-purple-deep:   #220b45;
+  --color-royal-purple:        #220b45;
+  --color-royal-purple-light:  #3a1375;
+  --color-royal-purple-glow:   rgba(124,58,237,0.15);
+
+  --font-sans:    var(--font-poppins), sans-serif;
+  --font-display: var(--font-inter), sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f0e11;
+  --foreground: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  font-family: var(--font-poppins), sans-serif;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Glassmorphism utilities — light edition */
+.glass-panel {
+  background: rgba(245,244,240,0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.glass-panel-light {
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* Purple gradient text */
+.text-gradient-purple {
+  background: linear-gradient(135deg, #0f0e11 20%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ambient keyframes */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.18; transform: scale(1)    translate(0px, 0px); }
+  50%       { opacity: 0.35; transform: scale(1.08) translate(30px, -50px); }
+}
+@keyframes pulseGlowSecond {
+  0%, 100% { opacity: 0.12; transform: scale(1.1)  translate(0px, 0px); }
+  50%       { opacity: 0.25; transform: scale(0.92) translate(-40px, 40px); }
+}
+
+.animate-glow-1 { animation: pulseGlow       15s ease-in-out infinite; }
+.animate-glow-2 { animation: pulseGlowSecond 18s ease-in-out infinite; }
+
+/* Marquee — used in Hero bottom strip */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+  will-change: transform;
 }
