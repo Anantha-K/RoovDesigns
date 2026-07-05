@@ -5,11 +5,13 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { servicesList } from "@/data/content";
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState<number | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -96,17 +98,19 @@ export default function Services() {
               
               <div className="srv-divider w-full h-px bg-white/[0.1] origin-left" />
 
-              <Link
-                href={`/services/${service.id}`}
-                data-cursor-text="View Details"
+              <div
                 className="srv-row group cursor-pointer py-8 md:py-10 block"
                 onMouseEnter={() => setActive(service.id)}
                 onMouseLeave={() => setActive(null)}
                 onClick={(e) => {
-                  // On mobile devices, intercept the first tap to expand the accordion instead of navigating
-                  if (typeof window !== "undefined" && window.innerWidth <= 767 && active !== service.id) {
-                    e.preventDefault();
-                    setActive(service.id);
+                  if (typeof window !== "undefined" && window.innerWidth <= 767) {
+                    if (active !== service.id) {
+                      setActive(service.id);
+                    } else {
+                      router.push(`/services/${service.id}`);
+                    }
+                  } else {
+                    router.push(`/services/${service.id}`);
                   }
                 }}
               >
@@ -169,7 +173,7 @@ export default function Services() {
                     </span>
                   </div>
                 </div>
-              </Link>
+              </div>
             </div>
           ))}
 
