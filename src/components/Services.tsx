@@ -58,10 +58,11 @@ export default function Services() {
           gsap.utils.toArray(".srv-row").forEach((row: any, i) => {
             ScrollTrigger.create({
               trigger: row,
-              start: "top 60%",
-              end: "bottom 40%",
-              onEnter: () => setActive(servicesList[i].id),
-              onEnterBack: () => setActive(servicesList[i].id),
+              start: "top 75%",
+              end: "bottom 25%",
+              onToggle: (self) => {
+                if (self.isActive) setActive(servicesList[i].id);
+              },
             });
           });
         },

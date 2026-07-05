@@ -64,7 +64,8 @@ export default function SmoothScroll({
       options={{
         lerp: 0.06,
         duration: 1.8,
-        
+        syncTouch: true,
+        smoothWheel: true,
         autoRaf: false,
       }}
     >
