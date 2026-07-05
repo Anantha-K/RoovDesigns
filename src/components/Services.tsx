@@ -53,20 +53,8 @@ export default function Services() {
         }
       );
 
-      ScrollTrigger.matchMedia({
-        "(max-width: 767px)": function () {
-          gsap.utils.toArray(".srv-row").forEach((row: any, i) => {
-            ScrollTrigger.create({
-              trigger: row,
-              start: "top 75%",
-              end: "bottom 25%",
-              onToggle: (self) => {
-                if (self.isActive) setActive(servicesList[i].id);
-              },
-            });
-          });
-        },
-      });
+      // Removed scroll-based accordion triggers for mobile. 
+      // Accordions are now handled cleanly via tap interactions to prevent layout shift jumping.
     }, sectionRef);
 
     return () => ctx.revert();
@@ -114,6 +102,13 @@ export default function Services() {
                 className="srv-row group cursor-pointer py-8 md:py-10 block"
                 onMouseEnter={() => setActive(service.id)}
                 onMouseLeave={() => setActive(null)}
+                onClick={(e) => {
+                  // On mobile devices, intercept the first tap to expand the accordion instead of navigating
+                  if (typeof window !== "undefined" && window.innerWidth <= 767 && active !== service.id) {
+                    e.preventDefault();
+                    setActive(service.id);
+                  }
+                }}
               >
                 <div className="grid grid-cols-12 gap-x-6 items-start">
 
