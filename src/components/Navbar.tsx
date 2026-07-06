@@ -35,21 +35,17 @@ export default function Navbar() {
     }
   }, [menuOpen]);
 
-  const scrollTo = (id: string) => (e: React.MouseEvent) => {
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
+    setMenuOpen(false);
+    
     const target = document.getElementById(id);
     if (!target) return;
 
-    const targetScrollY = target.getBoundingClientRect().top + window.scrollY;
-
-    window.dispatchEvent(
-      new CustomEvent("nav:preposition", { detail: { targetScrollY } })
-    );
-
     if (lenis) {
       lenis.scrollTo(target, {
-        duration: 1.3,
-        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
     } else {
       target.scrollIntoView({ behavior: "smooth" });
@@ -58,7 +54,6 @@ export default function Navbar() {
 
   return (
     <>
-      
       <div
         className={`
           fixed z-50 left-0 right-0 flex justify-center pointer-events-none
@@ -88,12 +83,12 @@ export default function Navbar() {
             <a
               key={label}
               href={`#${href}`}
-              onClick={scrollTo(href)}
+              onClick={(e) => handleScroll(e, href)}
               className="
                 px-5 py-2 rounded-full
                 text-[9px] font-medium uppercase tracking-[0.25em]
                 text-white/60 hover:text-white hover:bg-white/5
-                transition-all duration-300
+                transition-all duration-300 cursor-pointer
               "
             >
               {label}
@@ -104,12 +99,12 @@ export default function Navbar() {
         <div className="md:w-32 flex justify-end items-center gap-4">
           <a
             href="#contact"
-            onClick={scrollTo("contact")}
+            onClick={(e) => handleScroll(e, "contact")}
             className="
               flex items-center gap-2 px-5 py-2 rounded-full
               text-[9px] font-medium uppercase tracking-[0.25em]
               text-royal-purple hover:text-white bg-royal-purple/10 hover:bg-royal-purple/40
-              transition-all duration-300
+              transition-all duration-300 cursor-pointer
             "
           >
             Inquire
@@ -147,10 +142,10 @@ export default function Navbar() {
              <div key={label} className="overflow-hidden">
                <a
                  href={`#${href}`}
-                 onClick={(e) => { setMenuOpen(false); scrollTo(href)(e); }}
+                 onClick={(e) => handleScroll(e, href)}
                  className={`
                    block text-[14vw] font-display uppercase text-white tracking-tighter leading-none
-                   transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]
+                   transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer
                    ${menuOpen ? "translate-y-0" : "translate-y-full"}
                  `}
                  style={{ transitionDelay: `${i * 60 + 100}ms` }}

@@ -9,7 +9,7 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 const poppins = Poppins({

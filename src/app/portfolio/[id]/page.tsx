@@ -235,16 +235,16 @@ export default function PortfolioProjectPage({ params }: { params: Promise<{ id:
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
               {project.gallery[2] && (
-                <div className="reveal-image relative w-full aspect-square md:aspect-[4/5] rounded-[2rem] overflow-hidden">
-                  <Image src={project.gallery[2]} alt={`${project.title} Gallery 2`} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover hover:scale-105 transition-transform duration-[2000ms] ease-out" />
+                <div className="reveal-image relative w-full md:w-7/12 aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl">
+                  <Image src={project.gallery[2]} alt={`${project.title} Gallery 2`} fill sizes="(max-width: 768px) 100vw, 60vw" className="object-cover hover:scale-105 transition-transform duration-[2000ms] ease-out" />
                   <div className="absolute inset-0 ring-1 ring-white/10 rounded-[2rem] pointer-events-none" />
                 </div>
               )}
               {project.gallery[3] && (
-                <div className="reveal-image relative w-full aspect-square md:aspect-[4/5] rounded-[2rem] overflow-hidden">
-                  <Image src={project.gallery[3]} alt={`${project.title} Gallery 3`} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover hover:scale-105 transition-transform duration-[2000ms] ease-out" />
+                <div className="reveal-image relative w-full md:w-5/12 aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl md:mt-48">
+                  <Image src={project.gallery[3]} alt={`${project.title} Gallery 3`} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover hover:scale-105 transition-transform duration-[2000ms] ease-out" />
                   <div className="absolute inset-0 ring-1 ring-white/10 rounded-[2rem] pointer-events-none" />
                 </div>
               )}
