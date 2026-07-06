@@ -125,6 +125,7 @@ export default function Hero() {
           <div className="hero-cta mt-12 md:mt-24 w-full flex justify-center pointer-events-auto">
             <Link 
               href="#contact" 
+              data-magnetic
               className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/5 px-10 py-5 text-sm font-bold tracking-widest text-white uppercase backdrop-blur-md transition-all duration-500 hover:border-[#7c3aed] hover:shadow-[0_0_40px_rgba(124,58,237,0.6)] hover:-translate-y-1"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-[#9333ea] to-[#4c1d95] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

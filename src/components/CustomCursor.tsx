@@ -20,14 +20,26 @@ export default function CustomCursor() {
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
+    
     let ringX = mouseX;
     let ringY = mouseY;
+    let ringW = 32;
+    let ringH = 32;
+    let ringRadius = 16;
+    
+    let targetRingX = mouseX;
+    let targetRingY = mouseY;
+    let targetRingW = 32;
+    let targetRingH = 32;
+    let targetRingRadius = 16;
+
     let dotScale = 1;
     let ringScale = 1;
     let rafId = 0;
     
     let isHidden = false;
     let isHovering = false;
+    let isMagnetic = false;
     let currentText = "";
 
     const onMouseMove = (e: MouseEvent) => {
@@ -38,8 +50,30 @@ export default function CustomCursor() {
       const target = e.target as HTMLElement;
 
       isHidden = !!target.closest(".cursor-none");
-
       isHovering = !!target.closest("a, button, input, textarea, select, [role='button'], .group\\/cta");
+
+      const magneticEl = target.closest("[data-magnetic]") as HTMLElement | null;
+      if (magneticEl) {
+        isMagnetic = true;
+        const rect = magneticEl.getBoundingClientRect();
+        
+        targetRingW = rect.width + 20;
+        targetRingH = rect.height + 20;
+        targetRingRadius = 9999; 
+
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        targetRingX = centerX + (mouseX - centerX) * 0.15;
+        targetRingY = centerY + (mouseY - centerY) * 0.15;
+      } else {
+        isMagnetic = false;
+        targetRingW = 32;
+        targetRingH = 32;
+        targetRingRadius = 16;
+        targetRingX = mouseX;
+        targetRingY = mouseY;
+      }
 
       const textNode = target.closest("[data-cursor-text]");
       const newText = textNode ? textNode.getAttribute("data-cursor-text") || "" : "";
@@ -61,22 +95,27 @@ export default function CustomCursor() {
     document.addEventListener("mouseenter", onMouseEnter);
 
     const loop = () => {
-      
-      ringX += (mouseX - ringX) * 0.15;
-      ringY += (mouseY - ringY) * 0.15;
+      ringX += (targetRingX - ringX) * (isMagnetic ? 0.25 : 0.15);
+      ringY += (targetRingY - ringY) * (isMagnetic ? 0.25 : 0.15);
+      ringW += (targetRingW - ringW) * 0.2;
+      ringH += (targetRingH - ringH) * 0.2;
+      ringRadius += (targetRingRadius - ringRadius) * 0.2;
 
       const hasText = currentText !== "";
-      const targetRingScale = isHidden ? 0 : (hasText ? 2.8 : (isHovering ? 1.5 : 1));
-      const targetDotScale = isHidden ? 0 : (hasText ? 0 : (isHovering ? 0.5 : 1));
+      const targetRingScale = isHidden ? 0 : (hasText ? 2.8 : (isHovering && !isMagnetic ? 1.5 : 1));
+      const targetDotScale = isHidden ? 0 : (hasText || isMagnetic ? 0 : (isHovering ? 0.5 : 1));
       
       ringScale += (targetRingScale - ringScale) * 0.15;
       dotScale += (targetDotScale - dotScale) * 0.2;
 
       dot.style.transform = `translate(${mouseX}px, ${mouseY}px) scale(${dotScale})`;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px) scale(${ringScale})`;
+      
+      ring.style.width = `${ringW}px`;
+      ring.style.height = `${ringH}px`;
+      ring.style.borderRadius = `${ringRadius}px`;
+      ring.style.transform = `translate(${ringX - ringW/2}px, ${ringY - ringH/2}px) scale(${ringScale})`;
       
       if (cursorTextRef.current) {
-        
         cursorTextRef.current.style.left = `${ringX}px`;
         cursorTextRef.current.style.top = `${ringY}px`;
         
@@ -114,7 +153,7 @@ export default function CustomCursor() {
       />
       <div
         ref={cursorRingRef}
-        className="fixed top-0 left-0 w-8 h-8 border border-white/50 rounded-full pointer-events-none z-[9999] mix-blend-difference -ml-4 -mt-4 transition-[opacity,background-color] duration-300 hidden md:flex items-center justify-center"
+        className="fixed top-0 left-0 border border-white/50 pointer-events-none z-[9999] mix-blend-difference transition-[opacity,background-color] duration-300 hidden md:flex items-center justify-center"
         style={{ opacity: isVisible ? 1 : 0 }}
       />
       <div

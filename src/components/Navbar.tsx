@@ -36,6 +36,10 @@ export default function Navbar() {
   }, [menuOpen]);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (window.location.pathname !== "/") {
+      return; // Let the default <a> behavior handle the navigation to /#id
+    }
+    
     e.preventDefault();
     setMenuOpen(false);
     
@@ -54,15 +58,16 @@ export default function Navbar() {
 
   return (
     <>
-      <div
+      <header
         className={`
-          fixed z-50 left-0 right-0 flex justify-center pointer-events-none
+          fixed top-0 left-0 right-0 z-[9000]
+          flex justify-center pointer-events-none
+          pt-6
           transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]
-          ${visible ? "translate-y-6" : "-translate-y-full"}
+          ${visible ? "translate-y-0" : "-translate-y-full"}
         `}
       >
-      <header
-        className="
+        <div className="
           pointer-events-auto
           flex items-center justify-between 
           w-[92%] max-w-[1200px]
@@ -71,57 +76,56 @@ export default function Navbar() {
           bg-[#0f0e11]/70 backdrop-blur-xl 
           border border-white/10 
           shadow-[0_8px_32px_rgba(0,0,0,0.6)]
-        "
-      >
-        
-        <div className="md:w-32">
-          <Logo />
-        </div>
+        ">
+          <div className="md:w-32 shrink-0">
+            <Logo />
+          </div>
 
-        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-1">
-          {links.map(({ label, href }) => (
+          <nav className="hidden md:flex flex-1 justify-center items-center gap-1">
+            {links.map(({ label, href }) => (
+              <a
+                key={label}
+                href={`/#${href}`}
+                data-magnetic
+                onClick={(e) => handleScroll(e, href)}
+                className="
+                  relative z-10 px-5 py-2 rounded-full
+                  text-[9px] font-medium uppercase tracking-[0.25em]
+                  text-white/60 hover:text-white hover:bg-white/10
+                  transition-all duration-300 cursor-pointer
+                "
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="md:w-32 flex justify-end shrink-0 items-center gap-4">
             <a
-              key={label}
-              href={`#${href}`}
-              onClick={(e) => handleScroll(e, href)}
+              href="/#contact"
+              data-magnetic
+              onClick={(e) => handleScroll(e, "contact")}
               className="
-                px-5 py-2 rounded-full
-                text-[9px] font-medium uppercase tracking-[0.25em]
-                text-white/60 hover:text-white hover:bg-white/5
+                relative z-10 flex items-center gap-2 px-6 py-2.5 rounded-full
+                text-[10px] font-bold uppercase tracking-[0.25em]
+                text-white bg-royal-purple border border-white/20 hover:border-white/50 hover:bg-royal-purple-light shadow-[0_0_20px_rgba(34,11,69,0.6)] hover:shadow-[0_0_30px_rgba(58,19,117,0.8)]
                 transition-all duration-300 cursor-pointer
               "
             >
-              {label}
+              Inquire
             </a>
-          ))}
-        </nav>
 
-        <div className="md:w-32 flex justify-end items-center gap-4">
-          <a
-            href="#contact"
-            onClick={(e) => handleScroll(e, "contact")}
-            className="
-              flex items-center gap-2 px-5 py-2 rounded-full
-              text-[9px] font-medium uppercase tracking-[0.25em]
-              text-royal-purple hover:text-white bg-royal-purple/10 hover:bg-royal-purple/40
-              transition-all duration-300 cursor-pointer
-            "
-          >
-            Inquire
-          </a>
-
-          <button 
-            className="md:hidden flex flex-col gap-[5px] p-2 pointer-events-auto"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-          >
-            <span className="w-6 h-[1px] bg-white"></span>
-            <span className="w-6 h-[1px] bg-white"></span>
-          </button>
+            <button 
+              className="md:hidden flex flex-col gap-[5px] p-2 relative z-10"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <span className="w-6 h-[1px] bg-white"></span>
+              <span className="w-6 h-[1px] bg-white"></span>
+            </button>
+          </div>
         </div>
       </header>
-
-      </div>
 
       <div 
         className={`
@@ -141,7 +145,7 @@ export default function Navbar() {
           {links.map(({ label, href }, i) => (
              <div key={label} className="overflow-hidden">
                <a
-                 href={`#${href}`}
+                 href={`/#${href}`}
                  onClick={(e) => handleScroll(e, href)}
                  className={`
                    block text-[14vw] font-display uppercase text-white tracking-tighter leading-none

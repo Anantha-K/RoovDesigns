@@ -25,7 +25,7 @@ export default function ServicePage({ params }: { params: Promise<{ id: string }
     
     const ctx = gsap.context(() => {
       
-      gsap.utils.toArray(".reveal-item").forEach((el: any) => {
+      gsap.utils.toArray<HTMLElement>(".reveal-item").forEach((el) => {
         gsap.fromTo(
           el,
           { y: 50, opacity: 0 },
@@ -59,23 +59,15 @@ export default function ServicePage({ params }: { params: Promise<{ id: string }
     <div className="bg-[#0f0e11] text-white flex flex-col">
       <main className="flex-grow flex flex-col lg:flex-row w-full min-h-screen relative">
 
-        <div className="lg:w-1/2 w-full lg:h-screen h-[60vh] lg:sticky lg:top-0 relative overflow-hidden bg-black z-0">
+        <div className="lg:w-1/2 w-full lg:h-screen h-[60vh] lg:sticky lg:top-0 relative overflow-hidden bg-black z-40">
 
-          <div className="absolute top-8 md:top-12 left-6 md:left-12 z-50">
-            <Link 
-              href="/#services" 
-              className="inline-flex items-center gap-4 text-white hover:text-white transition-all group backdrop-blur-md bg-black/20 px-6 py-3 rounded-full border border-white/10 hover:bg-black/40 hover:border-white/30"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em]">Back to Services</span>
-            </Link>
-          </div>
+
 
           <Image
             src={service.image}
             alt={service.title}
             fill
-            className="service-hero-img object-cover opacity-80"
+            className="service-hero-img object-cover opacity-80 pointer-events-none"
             priority
           />
 
@@ -94,6 +86,16 @@ export default function ServicePage({ params }: { params: Promise<{ id: string }
           
           <div className="max-w-2xl">
             
+            <div className="mb-12">
+              <a 
+                href="/#services" 
+                className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-md text-white hover:text-[#0f0e11] hover:bg-white hover:border-white transition-all duration-300 group font-mono text-xs uppercase tracking-[0.15em] shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_32px_rgba(255,255,255,0.15)]"
+              >
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                <span>Back to Services</span>
+              </a>
+            </div>
+
             <div className="reveal-item flex items-center gap-6 mb-8">
               <span className="font-mono text-xl md:text-2xl text-royal-purple">{service.number}</span>
               <span className="h-px w-12 bg-white/20" />

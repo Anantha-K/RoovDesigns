@@ -22,13 +22,23 @@ function LenisScrollTriggerBridge() {
   useEffect(() => {
     const isPop = window.sessionStorage.getItem("isPopState") === "true";
     if (isPop) {
-      
       window.sessionStorage.removeItem("isPopState");
     } else {
-      
-      window.scrollTo(0, 0);
-      if (lenis) {
-        lenis.scrollTo(0, { immediate: true });
+      const hash = window.location.hash;
+      if (hash) {
+        // If navigating to a page with a hash, give React a tiny moment to mount, then jump to the hash
+        setTimeout(() => {
+          const target = document.querySelector(hash) as HTMLElement | null;
+          if (target && lenis) {
+            lenis.scrollTo(target, { immediate: true });
+          }
+        }, 100);
+      } else {
+        // Normal navigation: reset to top
+        window.scrollTo(0, 0);
+        if (lenis) {
+          lenis.scrollTo(0, { immediate: true });
+        }
       }
     }
   }, [pathname, lenis]);

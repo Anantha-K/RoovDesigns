@@ -93,7 +93,7 @@ export default function Footer() {
                 end: "bottom bottom",
                 scrub: 1,
               },
-            }
+            },
           );
         },
         "(max-width: 767px)": function () {
@@ -103,7 +103,7 @@ export default function Footer() {
             {
               letterSpacing: "0.08em",
               opacity: 0.05,
-              y: 0, 
+              y: 0,
               scale: 1,
               scrollTrigger: {
                 trigger: footerRef.current,
@@ -111,9 +111,9 @@ export default function Footer() {
                 end: "bottom bottom",
                 scrub: 1,
               },
-            }
+            },
           );
-        }
+        },
       });
     }, footerRef);
     return () => ctx.revert();
@@ -126,7 +126,6 @@ export default function Footer() {
       ref={footerRef}
       className="relative w-full flex flex-col justify-between bg-[#0f0e11] border-t border-white/[0.05] pt-24 md:pt-28 overflow-hidden z-10"
     >
-      
       <div
         className="absolute -bottom-[20%] left-[50%] -translate-x-1/2 w-[75%] h-[60%] rounded-full opacity-30 blur-[130px] pointer-events-none"
         style={{
@@ -147,7 +146,6 @@ export default function Footer() {
       </div>
 
       <div className="w-full px-6 md:px-8 relative z-10 flex flex-col justify-center gap-16 md:gap-24 flex-grow">
-        
         <div className="grid grid-cols-1 md:grid-cols-4 border-b border-white/[0.05] pb-12 md:pb-16 gap-y-8 md:gap-y-0 relative">
           <div className="md:col-span-2 pr-0 md:pr-12">
             <h2 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl text-white tracking-tight leading-[1.05] uppercase">
@@ -182,25 +180,25 @@ export default function Footer() {
         >
           <div className="flex flex-col gap-4 font-mono text-xs tracking-[0.25em] text-white/50 uppercase font-medium footer-link-col">
             <a
-              href="#about"
+              href="/#about"
               className="hover:text-white transition-colors duration-300 block w-fit"
             >
               About
             </a>
             <a
-              href="#services"
+              href="/#services"
               className="hover:text-white transition-colors duration-300 block w-fit"
             >
               Services
             </a>
             <a
-              href="#portfolio"
+              href="/#portfolio"
               className="hover:text-white transition-colors duration-300 block w-fit"
             >
               Projects
             </a>
             <a
-              href="#contact"
+              href="/#contact"
               className="hover:text-white transition-colors duration-300 block w-fit"
             >
               Contact
@@ -212,12 +210,20 @@ export default function Footer() {
           <div className="md:pl-12 footer-link-col">
             <div className="flex flex-col gap-4 font-mono text-xs tracking-[0.25em] text-white/50 uppercase">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/roov.designs/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors duration-300 block w-fit"
               >
                 Instagram
+              </a>
+              <a
+                href="https://www.facebook.com/roovdesigns26/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors duration-300 block w-fit"
+              >
+                Facebook
               </a>
               <a
                 href="https://linkedin.com"
@@ -226,14 +232,6 @@ export default function Footer() {
                 className="hover:text-white transition-colors duration-300 block w-fit"
               >
                 LinkedIn
-              </a>
-              <a
-                href="https://pinterest.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition-colors duration-300 block w-fit"
-              >
-                Pinterest
               </a>
             </div>
           </div>
